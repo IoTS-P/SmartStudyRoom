@@ -157,6 +157,26 @@ static bool have_connectivity(void){
 	return true;
 }
 
+static void gcvt(float value, int len, char* str) {
+	int ptr = 0;
+	char new[10] = {0};
+	new[ptr++] = (int)(value * 100) % 10;
+	new[ptr++] = (int)(value * 10) % 10;
+	new[ptr++] = '.';
+	value = value > 0 ? (int)value : -1 * (int)value;
+	int val = (int) value;
+	while(ptr+1 < len && val) {
+	  new[ptr++] = val % 10;
+	  value = val / 10;
+	}
+	if(value < 0) {
+	  new[ptr++] = '-';
+	}
+	for(size_t i = ptr-1; i >= 0; i--) {
+	  str[ptr-1-i] = new[i];
+	}
+}
+
 static const char* convert_float_to_string(float value){
 	char *string_float = malloc(10);
 	gcvt(value, 5, string_float);
